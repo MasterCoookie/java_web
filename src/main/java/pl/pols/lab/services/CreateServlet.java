@@ -27,6 +27,8 @@ public class CreateServlet extends HttpServlet {
         
         
         String _username = request.getParameter("username");
+        String _msg = request.getParameter("msg");
+
         
         if(_username == null || _username.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Invalid argument");
@@ -43,6 +45,9 @@ public class CreateServlet extends HttpServlet {
                 out.println("<body>");
                 out.println("<h1>New TAB listing creation</h1>");
                 out.println("<form action=\"insert\" method=\"GET\">");
+                if(_msg != null && _msg.length() != 0) {
+                    out.println("<h3 style=\"color: red;\">" + _msg + "</h3>");
+                }
                 out.println("<input type=\"text\" name=\"title\" placeholder=\"Title\"></input></br>");
                 out.println("<input type=\"text\" name=\"price\" placeholder=\"Price\"></input></br>");
                 out.println("<input type=\"checkbox\" name=\"negotiable\"></input>Negotiable?</br>");

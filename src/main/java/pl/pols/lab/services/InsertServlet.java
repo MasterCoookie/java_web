@@ -25,20 +25,17 @@ public class InsertServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        
-        
         String _username = request.getParameter("username");
         String _title = request.getParameter("title");
         String _price = request.getParameter("price");
         String _desc = request.getParameter("desc");
         String _negotiable = request.getParameter("negotiable");
         
-        
         if(_title == null || _title.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Invalid argument");
         } else {
             this.tab.setUsername(_username);
-            try{
+            try {
                 float price = Float.parseFloat(_price);
                 //TODO
                 var l = new Listing(_title, price, _desc, "on".equals(_negotiable), "JK", "123");
@@ -46,7 +43,8 @@ public class InsertServlet extends HttpServlet {
                 //TODO
                 response.sendRedirect(request.getContextPath() + "/tab?username=JK&contact=123");
             } catch(Exception ex) {
-                response.sendError(response.SC_BAD_REQUEST, ex.getMessage());
+                //TODO - redirect back to create with msg
+                response.sendRedirect(request.getContextPath() + "/create?username=JK&msg=Invalid%20tab%20parameters");
             }
         }
         
