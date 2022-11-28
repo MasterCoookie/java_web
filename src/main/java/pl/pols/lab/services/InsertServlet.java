@@ -31,11 +31,11 @@ public class InsertServlet extends HttpServlet {
         String _negotiable = request.getParameter("negotiable");
         
         HttpSession session = request.getSession();
-            if(session.getAttribute("tabObject") == null) {
-                response.sendRedirect(request.getContextPath() + "/create");
-            } else {
-                this.tab = (Tab)session.getAttribute("tabObject");
-            }
+        if(session.getAttribute("tabObject") == null) {
+            response.sendRedirect(request.getContextPath() + "/create");
+        } else {
+            this.tab = (Tab)session.getAttribute("tabObject");
+        }
         
         if(_title == null || _title.length() == 0 || _price == null || _price.length() == 0 || _desc == null || _desc.length() == 0){
             response.sendRedirect(request.getContextPath() + "/create?username=" + this.tab.getUsername() + "&msg=Missing%20tab%20parameters");

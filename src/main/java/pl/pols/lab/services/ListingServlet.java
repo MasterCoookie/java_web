@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import pl.polsl.lab.model.Listing;
@@ -25,13 +26,17 @@ public class ListingServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String _username = request.getParameter("username");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("tabObject") == null) {
+            response.sendRedirect(request.getContextPath() + "/create");
+        } else {
+            this.tab = (Tab)session.getAttribute("tabObject");
+        }
         String _index = request.getParameter("index");
         
-        if(_username == null || _index == null || _username.length() == 0 || _index.length() == 0){
+        if(_index == null || _index.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Wymagane są dwa parametry!!!");
         } else {
-            this.tab.setUsername(_username);
             try{
                 int index = Integer.parseInt(_index);
                 this.listing = this.tab.getListings().get(index);

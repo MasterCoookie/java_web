@@ -64,10 +64,10 @@ public class TabServlet extends HttpServlet {
                 out.println("<div>Title</div><div>Price</div><div>Author</div>");
                 for(int i = 0; i < this.tab.getListings().size(); ++i) {
                     var listing = this.tab.getListings().get(i);
-                    out.print("<a href=\"listing?username=" + this.tab.getUsername() + "&index=" + i + "\">");
+                    out.print("<div><a href=\"listing?index=" + i + "\">");
                     out.print("<div>"+ listing.getTitle() +"</div>");
-                    out.print("<div>"+ listing.getPrice() +"</div>");
-                    out.print("<div>"+ listing.getAuthorUname() +"</div></a>");
+                    out.print("<div>"+ Float.toString(listing.getPrice()) +"</div>");
+                    out.print("<div>"+ listing.getAuthorUname() +"</div></a></div>");
                 };
                 
                 out.println("</div>");
