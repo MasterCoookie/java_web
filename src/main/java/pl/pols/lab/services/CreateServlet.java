@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import pl.polsl.lab.model.Tab;
@@ -17,7 +18,7 @@ public class CreateServlet extends HttpServlet {
     
     @Override
     public void init() {
-        tab = new Tab();
+//        tab = new Tab();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -28,14 +29,23 @@ public class CreateServlet extends HttpServlet {
         
         String _username = request.getParameter("username");
         String _msg = request.getParameter("msg");
+        
+        PrintWriter out = response.getWriter();
 
         
         if(_username == null || _username.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Invalid argument");
         } else {
-            this.tab.setUsername(_username);
+            HttpSession session = request.getSession();
+            if(session.getAttribute("tabObject") == null) {
+                this.tab = new Tab();
+                this.tab.setUsername(_username);
+                session.setAttribute("tabObject", this.tab);
+            } else {
+                this.tab = (Tab)session.getAttribute("tabObject");
+                out.println("d");
+            }
             try{
-                PrintWriter out = response.getWriter();
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");

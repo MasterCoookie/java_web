@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import pl.polsl.lab.model.Listing;
@@ -18,7 +19,6 @@ public class InsertServlet extends HttpServlet {
     
     @Override
     public void init() {
-        tab = new Tab();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,6 +30,15 @@ public class InsertServlet extends HttpServlet {
         String _price = request.getParameter("price");
         String _desc = request.getParameter("desc");
         String _negotiable = request.getParameter("negotiable");
+        
+        HttpSession session = request.getSession();
+            if(session.getAttribute("tabObject") == null) {
+                this.tab = new Tab();
+                this.tab.setUsername(_username);
+                session.setAttribute("tabObject", this.tab);
+            } else {
+                this.tab = (Tab)session.getAttribute("tabObject");
+            }
         
         if(_title == null || _title.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Invalid argument");
