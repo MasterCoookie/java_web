@@ -25,7 +25,6 @@ public class InsertServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String _username = request.getParameter("username");
         String _title = request.getParameter("title");
         String _price = request.getParameter("price");
         String _desc = request.getParameter("desc");
@@ -33,27 +32,22 @@ public class InsertServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
             if(session.getAttribute("tabObject") == null) {
-                this.tab = new Tab();
-                this.tab.setUsername(_username);
-                session.setAttribute("tabObject", this.tab);
+                response.sendRedirect(request.getContextPath() + "/create");
             } else {
                 this.tab = (Tab)session.getAttribute("tabObject");
             }
         
-        if(_title == null || _title.length() == 0){
-            response.sendError(response.SC_BAD_REQUEST, "Invalid argument");
+        if(_title == null || _title.length() == 0 || _price == null || _price.length() == 0 || _desc == null || _desc.length() == 0){
+            response.sendRedirect(request.getContextPath() + "/create?username=" + this.tab.getUsername() + "&msg=Missing%20tab%20parameters");
         } else {
-            this.tab.setUsername(_username);
             try {
                 float price = Float.parseFloat(_price);
                 //TODO
                 var l = new Listing(_title, price, _desc, "on".equals(_negotiable), "JK", "123");
                 this.tab.addListing(l, true);
-                //TODO
-                response.sendRedirect(request.getContextPath() + "/tab?username=JK&contact=123");
+                response.sendRedirect(request.getContextPath() + "/tab?username=" + this.tab.getUsername() + "&contact=" + this.tab.getContact());
             } catch(Exception ex) {
-                //TODO - redirect back to create with msg
-                response.sendRedirect(request.getContextPath() + "/create?username=JK&msg=Invalid%20tab%20parameters");
+                response.sendRedirect(request.getContextPath() + "/create?username=" + this.tab.getUsername() + "&msg=Invalid%20tab%20parameters");
             }
         }
         
