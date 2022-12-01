@@ -45,7 +45,7 @@ public class InsertServlet extends HttpServlet {
                 //TODO
                 var l = new Listing(_title, price, _desc, "on".equals(_negotiable), "JK", "123");
                 this.tab.addListing(l, true);
-                response.sendRedirect(request.getContextPath() + "/tab?username=" + this.tab.getUsername() + "&contact=" + this.tab.getContact());
+                response.sendRedirect(request.getContextPath() + "/tab?username=" + this.tab.getUsername() + "&contact=" + this.tab.getContact() + "&inserted=" + _title);
             } catch(Exception ex) {
                 response.sendRedirect(request.getContextPath() + "/create?username=" + this.tab.getUsername() + "&msg=Invalid%20tab%20parameters");
             }

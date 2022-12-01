@@ -29,16 +29,26 @@ public class TabServlet extends HttpServlet {
         
         String _username = request.getParameter("username");
         String _contact = request.getParameter("contact");
+        String _inserted = request.getParameter("inserted");
+        String sellingToday = "";
+        
+        
+        
         
         if(_username == null || _contact == null || _username.length() == 0 || _contact.length() == 0){
             response.sendError(response.SC_BAD_REQUEST, "Wymagane są dwa parametry!!!");
         } else {
+            
             Cookie[] cookies = request.getCookies();
             if(cookies != null) {
                 for(Cookie cookie : cookies) {
-                    
+                    if(cookie.getName().equals("sellingToday")) {
+                        sellingToday = cookie.getValue();
+                        break;
+                    }
                 }
             }
+           
             PrintWriter out = response.getWriter();
             
             HttpSession session = request.getSession();
@@ -60,6 +70,7 @@ public class TabServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Hello " + this.tab.getUsername() + ". Welcome to TAB</h1>");
+                out.println("");
                 out.println("<div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, auto));\">");
                 out.println("<div>Title</div><div>Price</div><div>Author</div>");
                 for(int i = 0; i < this.tab.getListings().size(); ++i) {
@@ -71,6 +82,13 @@ public class TabServlet extends HttpServlet {
                 };
                 
                 out.println("</div>");
+                if(sellingToday.length() > 0) {
+                    out.println("<h3>You have created listings for " + sellingToday + ", create more!</h3>");
+                    Cookie cookie = new Cookie("sellingToday", sellingToday + ", " +_inserted);
+                    response.addCookie(cookie);
+                } else {
+                    out.println("<h3>You have created listings for " + _inserted + ", create more!</h3>");
+                }
                 out.println("<a href=\"create?username=" + _username + "\"><button>Create</button></a>");
                 out.println("</body>");
                 out.println("</html>");
