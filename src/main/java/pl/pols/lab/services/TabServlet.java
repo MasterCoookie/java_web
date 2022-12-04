@@ -58,7 +58,7 @@ public class TabServlet extends HttpServlet {
                 session.setAttribute("tabObject", this.tab);
             } else {
                 this.tab = (Tab)session.getAttribute("tabObject");
-                out.println("d");
+//                out.println("d");
             }
             
             try{   
@@ -69,19 +69,19 @@ public class TabServlet extends HttpServlet {
                 out.println("<link rel=\"stylesheet\" href=\"css/main.css\">");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Hello " + this.tab.getUsername() + ". Welcome to TAB</h1>");
+                out.println("<h2>Hello " + this.tab.getUsername() + ". Welcome to TAB</h2>");
                 out.println("");
-                out.println("<div style=\"display: grid; grid-template-columns: repeat(3, minmax(0, auto));\">");
-                out.println("<div>Title</div><div>Price</div><div>Author</div>");
+                out.println("<div class=\"table-wrapper\"><table class=\"fl-table\">");
+                out.println("<tr><td>Title</td><td>Price</td><td>Author</td></tr>");
                 for(int i = 0; i < this.tab.getListings().size(); ++i) {
                     var listing = this.tab.getListings().get(i);
-                    out.print("<div><a href=\"listing?index=" + i + "\">");
-                    out.print("<div>"+ listing.getTitle() +"</div>");
-                    out.print("<div>"+ Float.toString(listing.getPrice()) +"</div>");
-                    out.print("<div>"+ listing.getAuthorUname() +"</div></a></div>");
+                    out.print("<tr><td><a href=\"listing?index=" + i + "\">");
+                    out.print(listing.getTitle() +"</a></td>");
+                    out.print("<td>"+ Float.toString(listing.getPrice()) +"</td>");
+                    out.print("<td>"+ listing.getAuthorUname() +"</td></tr>");
                 };
                 
-                out.println("</div>");
+                out.println("</table></div>");
                 boolean inserted = _inserted != null && _inserted.length() > 0;
                 
                     if(sellingToday.length() > 0) {

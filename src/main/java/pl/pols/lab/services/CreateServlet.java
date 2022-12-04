@@ -43,7 +43,7 @@ public class CreateServlet extends HttpServlet {
                 session.setAttribute("tabObject", this.tab);
             } else {
                 this.tab = (Tab)session.getAttribute("tabObject");
-                out.println("d");
+//                out.println("d");
             }
             try{
                 out.println("<!DOCTYPE html>");

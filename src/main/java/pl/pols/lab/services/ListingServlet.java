@@ -19,7 +19,7 @@ public class ListingServlet extends HttpServlet {
     
     @Override
     public void init() {
-        tab = new Tab();
+//        tab = new Tab();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
