@@ -54,7 +54,7 @@ public class CreateServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>New TAB listing creation</h1>");
-                out.println("<form action=\"insert\" method=\"GET\">");
+                out.println("<form action=\"insert\" method=\"POST\">");
                 if(_msg != null && _msg.length() != 0) {
                     out.println("<h3 style=\"color: red;\">" + _msg + "</h3>");
                 }

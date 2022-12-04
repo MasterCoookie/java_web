@@ -82,13 +82,18 @@ public class TabServlet extends HttpServlet {
                 };
                 
                 out.println("</div>");
-                if(sellingToday.length() > 0) {
-                    out.println("<h3>You have created listings for " + sellingToday + ", create more!</h3>");
-                    Cookie cookie = new Cookie("sellingToday", sellingToday + ", " +_inserted);
-                    response.addCookie(cookie);
-                } else {
-                    out.println("<h3>You have created listings for " + _inserted + ", create more!</h3>");
-                }
+                boolean inserted = _inserted != null && _inserted.length() > 0;
+                
+                    if(sellingToday.length() > 0) {
+                        out.println("<h3>You have created listings for " + sellingToday + ", create more!</h3>");
+                        if(inserted) {
+                            Cookie cookie = new Cookie("sellingToday", sellingToday + ", " +_inserted);
+                            response.addCookie(cookie);
+                        }
+                    } else if(inserted) {
+                        out.println("<h3>You have created listings for " + _inserted + ", create more!</h3>");
+                    }
+                
                 out.println("<a href=\"create?username=" + _username + "\"><button>Create</button></a>");
                 out.println("</body>");
                 out.println("</html>");
